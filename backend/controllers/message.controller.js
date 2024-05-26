@@ -28,7 +28,7 @@ export const sendMessage = async (req,res) => {
         }
 
         // SOCKET.IO Functionality will go here
-        
+
 
         // await converstion.save();
         // await newMessage.save();
@@ -40,6 +40,26 @@ export const sendMessage = async (req,res) => {
 
     } catch (error) {
         console.log("Error in message controller: ", error.message);
+        res.status(500).json({ error:"Internal Server Error" });
+    }
+};
+
+export const getMessages = async (req,res) => {
+    try {
+        const {id:userToChatId} = req.params;
+        const senderId = req.user._id;
+        
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, userToChatId] },
+        }).populate("messages");    // NOT REFERENCES BUT ACTUALL MESSAGES
+
+        if(!conversation) return res.status(200).json([]);
+
+        const messages = conversation.messages;
+
+        res.status(200).json(messages);
+    } catch (error) {
+        console.log("Error in getMessages controller: ", error.message);
         res.status(500).json({ error:"Internal Server Error" });
     }
 };
