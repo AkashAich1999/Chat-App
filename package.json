@@ -4,7 +4,8 @@
   "description": "Built Chat Application using M.E.R.N. Stack, Socket.io, JWT, Redux Toolkit &amp; Daisy UI.",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon backend/server.js",
+    "server": "nodemon backend/server.js",
+		"start": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
